@@ -1,0 +1,864 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>How Can Decision Analysis Theory Improve your Robust Optimization Workflow?</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Peyman Kor" />
+    <script src="index_files/header-attrs/header-attrs.js"></script>
+    <link href="index_files/tile-view/tile-view.css" rel="stylesheet" />
+    <script src="index_files/tile-view/tile-view.js"></script>
+    <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# How Can Decision Analysis Theory Improve your Robust Optimization Workflow?
+## DigiRes Meeting, December 2021 - Bergen
+### Peyman Kor
+### 2021/12/10
+
+---
+
+
+
+
+
+
+
+
+---
+name: austin-paper
+class: top, top
+
+## New Paper by: UT Austin &amp; IBM Research 
+
+--
+
+.pull-left[
+
+#### Bayesian Optimization for CO2 Storage
+
+&lt;img src="images/paper_austin.png" width="666" height="400px" style="display: block; margin: auto;" /&gt;
+
+]
+
+--
+
+.pull-right[
+
+
+#### Performance: BO &gt; CMA-ES and GA
+
+&lt;img src="images/paper_austin_compare_new.png" width="80%" height="40%" /&gt;
+
+{{content}}
+
+]
+
+--
+
+#### The work is limited to: 
+
+- **&lt;span style="color: red;"&gt;Deterministic Optimization&lt;/span&gt;**
+
+---
+[comment]: &lt;&gt; (Supported by Digires project)
+
+name: ourpaper
+class: top, top
+
+## Manuscript by UiS/ DigiRes Supported:
+
+--
+
+.pull-left[
+
+#### Bayesian Optimizatio for Well-Control 
+
+&lt;img src="images/wepaper.png" width="632" style="display: block; margin: auto;" /&gt;
+
+]
+
+--
+
+.pull-right[
+
+
+#### This work: 
+
+- **&lt;span style="color: red;"&gt;Robust Optimization&lt;/span&gt;**
+
+{{content}}
+
+]
+
+--
+
+#### Performance: BO &gt; PSO and GA
+
+&lt;img src="images/paper_we_compare.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+---
+
+name: activeresearch-deppmind
+class: top, top
+
+## Active Research Line in the Field of BO (I) - DeepMind
+
+--
+
+.pull-left[
+
+#### Bayesian Optimizatio in AlphaGo
+
+&lt;img src="images/deepmind.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+]
+
+--
+
+.pull-right[
+
+
+#### Paper: BO in AlphaGo
+
+&lt;img src="images/alphagopaper.png" width="100%" style="display: block; margin: auto;" /&gt;
+]
+
+---
+
+name: activeresearch-fb
+class: top, top
+
+### Active Research Line in the Field of BO (I) - Facebook/Twitter
+
+--
+
+.pull-left[
+#### Facebook: A Team Devoted to BO:
+
+&lt;img src="images/fb.png" width="60%" style="display: block; margin: auto;" /&gt;
+
+{{content}}
+
+]
+--
+
+- Python Package
+
+&lt;img src="images/botorch.png" width="400px" height="200px" style="display: block; margin: auto;" /&gt;
+
+{{content}}
+
+--
+
+--
+
+.pull-right[
+
+#### Twitter: Run the Black-Box Optimization Contest
+
+
+&lt;img src="images/twitter.png" width="60%" style="display: block; margin: auto;" /&gt;
+
+{{content}}
+
+]
+
+--
+
+- Huawei Noah’s Ark Lab	
+
+&lt;img src="images/huwaei_edit.png" width="60%" height="40%" style="display: block; margin: auto;" /&gt;
+{{content}}
+--
+
+---
+
+## Rich toolset (open source) for Bayesian Optimization:
+
+--
+
+### More than &gt; 10 packages actively under maintenance in Github:
+
+&lt;img src="images/toolset.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+---
+
+name: questions 
+class: middle, center
+
+--
+
+## For an E&amp;P company considering the task of robust optimization:
+
+--
+
+### 1) What is the similarity/difference of BO to the current methods(s)?
+
+--
+
+### 2) Are there merits of BO to the current tool(s)?
+
+---
+
+name: current tool
+class: top, top
+
+## Current tool for Robust Optimization: 
+
+--
+
+### Focus: Ensemble-Based Optimization (EnOpt)
+
+--
+
+&lt;img src="images/enopt.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+---
+
+name: comparison
+class: top, top
+
+### Comparison of BO/ EnOpt
+
+#### Two 2-d Function
+
+--
+
+.pull-left[
+
+##### BOHACHEVSKY Function
+
+- Global Optimum: `\(f(x^*)=0\)`, at `\(x^*= (0,0)\)`
+
+
+&lt;img src="index_files/figure-html/unnamed-chunk-13-1.png" width="90%" style="display: block; margin: auto;" /&gt;
+
+]
+
+--
+
+.pull-right[
+
+
+#### HIMMELBLAU'S Function 
+
+-  multi-modal function
+
+&lt;img src="index_files/figure-html/unnamed-chunk-14-1.png" width="90%" style="display: block; margin: auto;" /&gt;
+
+]
+
+---
+
+name: scoring Metrics
+class: top, top
+
+## Scoring Metrics
+
+--
+
+`$$F: \text{function output} \:, t: \text{Number of Function Evaluation},\: n:\text{trial}$$`
+--
+
+- `$$S_{tn}= \text{cumm-max}_{t} F_{tn}$$`
+
+--
+
+--
+
+- `$$S'_{tn}= max(S_{tn}, clip)$$`
+- `\(clip\)` is the median score after a single function evaluation.
+--
+
+`$$\text{mean-perf}_{t} = \text{mean}_n S'_{tn}$$`
+--
+
+- Normalized mean performance:
+
+`$$\text{norm-mean-perf}_{t} = \frac{\text{Gopt}-\text{mean-perf}_{t}}{\text{Gopt}-\text{clip}}$$`
+
+--
+
+`$$\color{red}{\text{leaderboard-score}=100 \times (1-\text{norm-mean-perf}_{t})}$$`
+--
+---
+name: intro two methods
+class: top, top
+
+### What version of BO and EnOpt:
+
+--
+
+.pull-left[
+
+### Classic Bayesian Optimization:
+
+#### Probabilstic model: 
+
+**Gaussian Process Regression.**
+
+#### Aquistion function: 
+
+**Expected Improvement.**
+
+#### Optimization of aquistion function: 
+
+**Multi-start LFBGS.**
+
+]
+
+--
+
+.pull-right[
+
+### Classic EnOpt:
+
+#### NO Covariance Adaptaion: 
+
+**Constant covariance matrix of the control variables.**
+
+#### Step Length updating : 
+
+**If objective function does not improve, reduce it by half.**
+
+#### Stopping criteria: 
+
+**Max iteration =20 or `\(\epsilon\)` = 1e-3 **
+
+]
+
+---
+name: Results
+class: top, top
+
+### Results of comparison
+
+.pull-left[
+
+#### BOHACHEVSKY Function
+
+
+
+
+&lt;img src="index_files/figure-html/unnamed-chunk-16-1.png" width="90%" /&gt;
+ 
+
+
+
+]
+
+--
+
+.pull-right[
+
+#### HIMMELBLAU'S Function 
+
+
+
+&lt;img src="index_files/figure-html/unnamed-chunk-19-1.png" width="90%" /&gt;
+
+
+
+]
+---
+
+name: dicussion 
+class: middle, center
+
+## Discussion on : How EnOpt is different from BO? 
+
+--
+
+### They are different in three perspective: 
+
+--
+
+ - #### 1) Assigning uncertainty to decision (control) alternatives,
+ 
+ - #### 2) How to make decision for next evaluation point?
+ 
+ - #### 3) When to stop the Optimization process
+
+--
+
+&lt;img src="images/find_three.jpg" width="40%" style="display: block; margin: auto;" /&gt;
+
+
+
+---
+name: how to look opt
+class: top, top
+
+## How to frame optimization problem?
+
+--
+
+### Optimization Problem: Sequential decision making problem
+
+&lt;img src="images/opt_schema.png" width="800px" height="400px" style="display: block; margin: auto;" /&gt;
+
+---
+
+name: diffrences1 intro
+class: center, middle
+
+## How EnOpt is different from BO?
+
+###  1) Assigning uncertainty to decision alternatives:
+
+---
+name: diffrences1
+class: top, top
+
+## 1) Assigning uncertainty to decision alternatives:
+
+--
+
+#### How Enopt works: Step 1 and 2)
+.pull-left[
+
+&lt;img src="images/first_enopt.png" width="90%" style="display: block; margin: auto;" /&gt;
+
+]
+
+--
+
+.pull-right[
+
+&lt;img src="images/second_enopt.png" width="90%" /&gt;
+]
+
+---
+
+name: diffrences1 part2
+class: top, top
+
+###  1): Assigning uncertainty to decision alternatives:
+
+--
+
+.pull-left[
+
+#### BO:
+
+&lt;img src="images/bo_dist.png" width="90%" style="display: block; margin: auto;" /&gt;
+
+]
+
+--
+
+.pull-right[
+
+#### EnOpt:
+
+&lt;img src="images/enopt_dist.png" width="90%" /&gt;
+]
+
+---
+
+name: summary of difference 1 
+class: top, top
+
+## Summary of 1):
+
+### Assigning uncertainty to decision alternatives:
+--
+
+.pull-left[
+
+### In EnOpt:
+
+- #### We have a probability mass function to represent the distribution of alternatives.
+
+
+]
+
+--
+.pull-right[
+
+### In Bo:
+
+- #### We have a distribution (normal) defined by mean and sd for each alternative.
+
+
+]
+---
+name: difference 2 intro
+class: center, middle
+
+## How EnOpt is different from BO?
+### 2) How to make decision for next evaluation point?
+
+---
+
+name: diffrences2 intro
+class: top, top
+
+## 2) How to make decision for next evaluation point?
+
+--
+
+.pull-left[
+
+#### BO:
+
+&lt;img src="images/next_decision.png" width="90%" style="display: block; margin: auto;" /&gt;
+
+]
+
+--
+
+.pull-right[
+
+#### EnOpt:
+
+&lt;img src="images/next_decision_enopt.png" width="90%" /&gt;
+]
+
+---
+
+name: summary of difference 1 and 2
+class: top, top
+
+## How to make decision for next evaluation point?
+
+--
+
+.pull-left[
+
+### In EnOpt:
+
+- #### We have a probability mass function to represent the distribution of alternatives.
+
+
+- #### The Next Decision: is random from the above probability mass function.
+
+]
+
+--
+.pull-right[
+
+### In Bo:
+
+- #### We have a distribution (normal) defined by mean and sd for each alternative.
+
+- #### The Next Decision: is based on the utility of each alternative.
+
+]
+
+
+---
+
+name: diffrences3 intro
+class: center, middle
+
+## How EnOpt is different from BO?
+
+### 3) When to stop optimization proces?
+
+---
+name: diffrences3 part1
+class: top, top
+
+## 3) When to stop optimization process:
+
+--
+
+.pull-left[
+
+### In EnOpt:
+
+#### Criteria:
+
+- The relative increase of the objective function is less than `\(10^{-3}\)`.
+
+- The change to the control variables in two consecutive iterations is less than `\(0.1\)`.
+
+]
+
+--
+
+.pull-right[
+
+### In BO:
+
+#### Criteria:
+- We stop when the Value of Information (VOI) is less than the cost of acquisition of information.(Howard, 1966)
+
+]
+
+---
+## 3) When to stop optimization process:
+
+--
+
+### Source of Information: Running the Numerical Reservoir Simulator
+
+--
+.pull-left[
+
+#### Minimizng the cost: before gathering information 
+
+&lt;img src="images/voi_first.png" width="150%" /&gt;
+
+]
+
+--
+
+.pull-right[
+
+#### Minimizng the cost: after gathering information:
+
+&lt;img src="images/voi_second.png" width="150%" /&gt;
+
+]
+---
+name:BO limit
+class: top, top
+
+## What is the limitaion of Bayesian Optimization?
+
+--
+### **&lt;span style ="color:red;"&gt;Scaling to High Dimentional Space :&lt;/span&gt;**
+
+--
+
+.pull-left[
+
+&lt;img src="images/scalable.png" width="150%" /&gt;
+
+]
+
+--
+
+.pull-right[
+
+&lt;img src="images/ackly_200_edit.png" width="150%" /&gt;
+
+]
+
+
+---
+name: final message 
+class: top, top
+
+## Robust Optimization Landscape:
+
+--
+
+- **&lt;span style ="color:red;"&gt;Past :&lt;/span&gt;**
+--
+
+&lt;img src="images/before_bo1.png" width="70%" style="display: block; margin: auto;" /&gt;
+
+--
+
+- **&lt;span style ="color:green;"&gt;Future :&lt;/span&gt;**
+
+--
+
+&lt;img src="images/after_bo1.png" width="70%" style="display: block; margin: auto;" /&gt;
+
+---
+
+name: questions 
+class: middle, center
+
+## Final Message:
+
+--
+
+### If you are an E&amp;P company considering optimization of expensive to evaluate function:
+
+--
+
+### You (may) need to consider, research and use Bayesian Optimization,
+
+--
+
+### Why:
+
+--
+
+### 1) It has an active research line to improve it constantly.
+
+--
+
+### 2) It has a rich toolset (open source) to be used.
+
+--
+
+### 3) It is more consistent with Decision Analysis theory.
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"slideNumberFormat": "%current% / %total%",
+"highlightStyle": "github",
+"highlightLines": true,
+"ratio": "16:9",
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+(function(time) {
+  var d2 = function(number) {
+    return ('0' + number).slice(-2); // left-pad 0 to minutes/seconds
+  },
+
+  time_format = function(total) {
+    var secs = Math.abs(total) / 1000;
+    var h = Math.floor(secs / 3600);
+    var m = Math.floor(secs % 3600 / 60);
+    var s = Math.round(secs % 60);
+    var res = d2(m) + ':' + d2(s);
+    if (h > 0) res = h + ':' + res;
+    return res;  // [hh:]mm:ss
+  },
+
+  slide_number_div = function(i) {
+    return document.getElementsByClassName('remark-slide-number').item(i);
+  },
+
+  current_page_number = function(i) {
+    return slide_number_div(i).firstChild.textContent;  // text "i / N"
+  };
+
+  var timer = document.createElement('span'); timer.id = 'slide-time-left';
+  var time_left = time, k = slideshow.getCurrentSlideIndex(),
+      last_page_number = current_page_number(k);
+
+  setInterval(function() {
+    time_left = time_left - 1000;
+    timer.innerHTML = ' ' + time_format(time_left);
+    if (time_left < 0) timer.style.color = 'red';
+  }, 1000);
+
+  slide_number_div(k).appendChild(timer);
+
+  slideshow.on('showSlide', function(slide) {
+    var i = slide.getSlideIndex(), n = current_page_number(i);
+    // reset timer when a new slide is shown and the page number is changed
+    if (last_page_number !== n) {
+      time_left = time; last_page_number = n;
+      timer.innerHTML = ' ' + time_format(time); timer.style.color = null;
+    }
+    slide_number_div(i).appendChild(timer);
+  });
+})(60000);
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
